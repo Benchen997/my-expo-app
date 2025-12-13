@@ -8,6 +8,7 @@ import { Alert } from "react-native";
 import Card from "../components/ui/Card";
 import Instruction from "../components/ui/Instruction";
 import { Ionicons } from "@expo/vector-icons";
+import { FlatList } from "react-native";
 
 function generateRandomBetween(min, max, exclude) {
   const rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -85,7 +86,17 @@ function GameScreen({ userNumber, onGameOver, onRoundChange }) {
           </View>
         </View>
       </Card>
-      <Text>Logs Rounds</Text>
+      <View style={styles.listContainer}>
+        <FlatList data={guessRounds} renderItem={(itemData) => (
+          <View style={styles.listItem}>
+            <Text style={styles.listText}>#{guessRounds.length - itemData.index}</Text>
+            <Text style={styles.listText}>{itemData.item}</Text>
+          </View>
+        )}
+        keyExtractor={(item) => item.toString()}
+        contentContainerStyle={styles.listContent}
+        />
+      </View>
     </View>
   );
 }
@@ -106,5 +117,36 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
+  },
+  listContainer: {
+    flex: 1,
+    padding: 8,
+    height: 200,
+    overflow: "hidden",
+    scrollViewProps: {
+      showsVerticalScrollIndicator: false,
+    },
+  },
+  listItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 12,
+    marginVertical: 8,
+    borderWidth: 1,
+    borderColor: Colors.primary800,
+    borderRadius: 40,
+    backgroundColor: Colors.accent500,
+    elevation: 4,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    shadowOpacity: 0.25,
+  },
+  listContent: {
+    paddingBottom: 24,
+  },  
+  listText: {
+    fontFamily: "open-sans",
+    fontSize: 24,
   },
 });
