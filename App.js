@@ -14,6 +14,7 @@ import AppLoading from "expo-app-loading";
 export default function App() {
   const [userNumber, setUserNumber] = useState(null);
   const [gameIsOver, setGameIsOver] = useState(true);
+  const [roundsNumber, setRoundsNumber] = useState(0);
   const [fontsLoaded, error] = useFonts({
     "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
     "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
@@ -21,17 +22,36 @@ export default function App() {
   if (!fontsLoaded && !error) {
     return <AppLoading />;
   }
+  /**
+   * This function is used to set the user number and start the game.
+   * @param {*} pickedNumber 
+   */
   function pickedNumberHandler(pickedNumber) {
     setUserNumber(pickedNumber);
     setGameIsOver(false);
   }
+  /**
+   * This function is used to set the rounds number.
+   * @param {*} roundsNumber 
+   */
+  function roundChangeHandler(roundsNumber) {
+    setRoundsNumber(roundsNumber);
+  }
+  /**
+   * This function is used to start a new game.
+   */
+  function startNewGameHandler() {
+    setUserNumber(null);
+    setGameIsOver(false);
+    setRoundsNumber(0);
+  }
   let screen = <StartGameScreen onPickNumber={pickedNumberHandler} />;
 
   if (userNumber) {
-    screen = <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} />;
+    screen = <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} onRoundChange={roundChangeHandler} />;
   }
   if (gameIsOver && userNumber) {
-    screen = <GameOverScreen />;
+    screen = <GameOverScreen roundsNumber={roundsNumber} userNumber={userNumber} onStartNewGame={startNewGameHandler}/>;
   }
 
   function gameOverHandler() {
