@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet } from "react-native";
 import PrimaryButtons from "../components/ui/PrimaryButtons";
-import { SafeAreaView } from "react-native-safe-area-context";
 import PrimaryTitle from "../components/ui/PrimaryTitle";
 import Colors from "../constant/colors";
 import { useState, useEffect } from "react";
 import NumberContainer from "../components/game/NumberContainer";
 import { Alert } from "react-native";
+import Card from "../components/ui/Card";
+import Instruction from "../components/ui/Instruction";
 
 function generateRandomBetween(min, max, exclude) {
   const rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -60,17 +61,21 @@ function GameScreen({ userNumber, onGameOver }) {
     <View style={styles.screen}>
       <PrimaryTitle> Opponent's Guess</PrimaryTitle>
       <NumberContainer>{currentGuess.toString()}</NumberContainer>
-      <View>
-        <Text>Higher or lower?</Text>
+      <Card>
+        <Instruction style={styles.instructionText}>Higher or lower?</Instruction>
         <View style={styles.buttonsContainer}>
-          <PrimaryButtons onPress={() => nextGuessHandler("lower")}>
-            -
-          </PrimaryButtons>
-          <PrimaryButtons onPress={() => nextGuessHandler("higher")}>
-            +
-          </PrimaryButtons>
+          <View style={styles.buttonContainer}>
+            <PrimaryButtons onPress={() => nextGuessHandler("lower")}>
+              -
+            </PrimaryButtons>
+          </View>
+          <View style={styles.buttonContainer}>
+            <PrimaryButtons onPress={() => nextGuessHandler("higher")}>
+              +
+            </PrimaryButtons>
+          </View>
         </View>
-      </View>
+      </Card>
       <Text>Logs Rounds</Text>
     </View>
   );
@@ -84,13 +89,13 @@ const styles = StyleSheet.create({
     padding: 12,
     marginTop: 36,
   },
-  subtitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: Colors.accent500,
-    textAlign: "center",
-    borderWidth: 2,
-    borderColor: Colors.accent500,
-    padding: 12,
+  instructionText: {
+    marginBottom: 12,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+  },
+  buttonContainer: {
+    flex: 1,
   },
 });
