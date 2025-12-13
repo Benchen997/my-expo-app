@@ -30,7 +30,7 @@ function StartGameScreen({ onPickNumber }) {
     setEnteredNumber("");
   }
   return (
-    <SafeAreaView style={styles.inputContainer}>
+    <View style={styles.inputContainer}>
       <TextInput
         style={styles.numberInput}
         maxLength={2}
@@ -48,7 +48,7 @@ function StartGameScreen({ onPickNumber }) {
           <PrimaryButtons onPress={confirmInputHandler}>Confirm</PrimaryButtons>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

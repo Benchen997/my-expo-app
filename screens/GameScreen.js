@@ -3,7 +3,7 @@ import PrimaryButtons from "../components/ui/PrimaryButtons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PrimaryTitle from "../components/ui/PrimaryTitle";
 import Colors from "../constant/colors";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NumberContainer from "../components/game/NumberContainer";
 import { Alert } from "react-native";
 
@@ -18,13 +18,15 @@ function generateRandomBetween(min, max, exclude) {
 let minBoundary = 1;
 let maxBoundary = 100;
 
-function GameScreen({ userNumber }) {
-  const initialGuess = generateRandomBetween(
-    minBoundary,
-    maxBoundary,
-    userNumber
-  );
+function GameScreen({ userNumber, onGameOver }) {
+  const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
+
+  useEffect(() => {
+    if (currentGuess === userNumber) {
+      onGameOver();
+    }
+  }, [currentGuess, userNumber, onGameOver]);
 
   /**
    * This function is used to generate a new random number between 1 and 100, excluding the current guess,also will
@@ -55,7 +57,7 @@ function GameScreen({ userNumber }) {
   }
   return (
     // safe area view is used to ensure that the content is not covered by the status bar
-    <SafeAreaView style={styles.screen}>
+    <View style={styles.screen}>
       <PrimaryTitle> Opponent's Guess</PrimaryTitle>
       <NumberContainer>{currentGuess.toString()}</NumberContainer>
       <View>
@@ -70,7 +72,7 @@ function GameScreen({ userNumber }) {
         </View>
       </View>
       <Text>Logs Rounds</Text>
-    </SafeAreaView>
+    </View>
   );
 }
 

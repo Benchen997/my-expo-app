@@ -7,15 +7,33 @@ import { useState } from "react";
 import GameScreen from "./screens/GameScreen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "./constant/colors";
+import GameOverScreen from "./screens/GameOverScreen";
 
 export default function App() {
   const [userNumber, setUserNumber] = useState(null);
-
+  const [gameIsOver, setGameIsOver] = useState(true);
   function pickedNumberHandler(pickedNumber) {
     setUserNumber(pickedNumber);
+    setGameIsOver(false);
   }
+  let screen = <StartGameScreen onPickNumber={pickedNumberHandler} />;
+
+  if (userNumber) {
+    screen = <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} />;
+  }
+  if (gameIsOver && userNumber) {
+    screen = <GameOverScreen />;
+  }
+
+  function gameOverHandler() {
+    setGameIsOver(true);
+  }
+
   return (
-    <LinearGradient colors={[Colors.primary800, Colors.accent500]} style={styles.rootScreen}>
+    <LinearGradient
+      colors={[Colors.primary800, Colors.accent500]}
+      style={styles.rootScreen}
+    >
       <StatusBar style="light" />
       <ImageBackground
         source={require("./assets/background.png")}
@@ -23,13 +41,7 @@ export default function App() {
         style={styles.rootScreen}
         imageStyle={styles.backgroundImage}
       >
-        <SafeAreaView style={styles.rootScreen}>
-          {userNumber ? (
-            <GameScreen userNumber={userNumber} />
-          ) : (
-            <StartGameScreen onPickNumber={pickedNumberHandler} />
-          )}
-        </SafeAreaView>
+        <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
       </ImageBackground>
     </LinearGradient>
   );
