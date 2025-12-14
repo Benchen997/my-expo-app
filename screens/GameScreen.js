@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 12,
     marginTop: 36,
+    alignItems: "center",
   },
   instructionText: {
     marginBottom: 12,
@@ -122,6 +123,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 8,
     height: 200,
+    justifyContent: "center",
+    alignItems: "center",
     overflow: "hidden",
     scrollViewProps: {
       showsVerticalScrollIndicator: false,
@@ -141,6 +144,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 6,
     shadowOpacity: 0.25,
+    maxWidth: "80%",
+    width: 300,
   },
   listContent: {
     paddingBottom: 24,
