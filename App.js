@@ -24,7 +24,7 @@ export default function App() {
   }
   /**
    * This function is used to set the user number and start the game.
-   * @param {*} pickedNumber 
+   * @param {*} pickedNumber
    */
   function pickedNumberHandler(pickedNumber) {
     setUserNumber(pickedNumber);
@@ -32,7 +32,7 @@ export default function App() {
   }
   /**
    * This function is used to set the rounds number.
-   * @param {*} roundsNumber 
+   * @param {*} roundsNumber
    */
   function roundChangeHandler(roundsNumber) {
     setRoundsNumber(roundsNumber);
@@ -48,10 +48,22 @@ export default function App() {
   let screen = <StartGameScreen onPickNumber={pickedNumberHandler} />;
 
   if (userNumber) {
-    screen = <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} onRoundChange={roundChangeHandler} />;
+    screen = (
+      <GameScreen
+        userNumber={userNumber}
+        onGameOver={gameOverHandler}
+        onRoundChange={roundChangeHandler}
+      />
+    );
   }
   if (gameIsOver && userNumber) {
-    screen = <GameOverScreen roundsNumber={roundsNumber} userNumber={userNumber} onStartNewGame={startNewGameHandler}/>;
+    screen = (
+      <GameOverScreen
+        roundsNumber={roundsNumber}
+        userNumber={userNumber}
+        onStartNewGame={startNewGameHandler}
+      />
+    );
   }
 
   function gameOverHandler() {
@@ -59,20 +71,23 @@ export default function App() {
   }
 
   return (
-    <LinearGradient
-      colors={[Colors.primary800, Colors.accent500]}
-      style={styles.rootScreen}
-    >
+    <>
       <StatusBar style="light" />
-      <ImageBackground
-        source={require("./assets/background.png")}
-        resizeMode="cover"
+      <LinearGradient
+        colors={[Colors.primary800, Colors.accent500]}
         style={styles.rootScreen}
-        imageStyle={styles.backgroundImage}
       >
-        <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+        {/* status bar is used to display the status bar of the phone system */}
+        <ImageBackground
+          source={require("./assets/background.png")}
+          resizeMode="cover"
+          style={styles.rootScreen}
+          imageStyle={styles.backgroundImage}
+        >
+          <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
